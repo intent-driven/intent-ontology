@@ -1,0 +1,644 @@
+# Intent Common Model
+# Version 1.0.0
+# baseURI: http://tio.labs.tmforum.org/tio/v1.0.0/IntentCommonModel/
+
+@prefix :     <http://tio.labs.tmforum.org/tio/v1.0.0/IntentCommonModel/> .
+@prefix imo:  <http://tio.labs.tmforum.org/tio/v1.0.0/IntentManagementOntology/> .
+@prefix dct:  <http://purl.org/dc/terms/> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix t:    <http://www.w3.org/2006/time#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+<http://tio.labs.tmforum.org/tio/v1.0.0/IntentCommonModel/>
+  rdf:type owl:Ontology ;
+  dct:contributor <mailto:joerg.niemoeller@ericsson.com> ;
+  dct:created "2022-01-29"^^xsd:date ;
+  dct:creator <http://orcid.org/0000-0002-4570-1754> ;
+  dct:creator <mailto:joerg.niemoeller@ericsson.com> ;
+  dct:isVersionOf <https://www.tmforum.org/resources/how-to-guide/TR290/> ;
+  # dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+  dct:modified "2022-02-17"^^xsd:date ;
+  dct:rights "Copyright © 2022 TM Forum"@en ;
+  rdfs:label "Intent Common Model"@en ;
+  rdfs:seeAlso <https://www.tmforum.org/resources/how-to-guide/ig1253-intent-in-autonomous-networks-v1-1-0/> ;
+  rdfs:seeAlso <https://www.tmforum.org/resources/how-to-guide/ig1253a-intent-common-model-v1-1-0/> ;
+  skos:changeNote "2022-01-29 - initial draft" ;
+  skos:changeNote "2022-02-17 - error corrections" ;
+.
+
+# --- Classes ----------
+:Context
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :RequirementExplainer ;
+  rdfs:label "Context"@en ;
+  rdfs:comment ":Context objects carry additional conditions and applicability ranges related to requirements. Different types of context and its specific vocabulary and semantics would be introduced through subclasses of :Context and defined by intent extension models."@en ;
+.
+:DeliveryExpectation
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :Expectation ;
+  rdfs:label "Delivery expectation"@en ;
+  rdfs:comment "A delivery expectation is a subclass of expectation. It is used to express that something needs to be delivered and it specifies what this something is."@en ;
+.
+:DeliveryExpectationReport
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :ExpectationReport ;
+  rdfs:label "Delivery expectation report"@en ;
+  rdfs:comment "A delivery expectation report is used to report the detailed state with respect to a delivery expectation."@en ;
+.
+:DeliveryParam
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf [
+                    rdf:type rdfs:Class ;
+                    owl:unionOf ( :ExpectationParam :ExpectationReportParam ) ;
+                  ] ;
+  rdfs:label "Delivery param"@en ;
+  rdfs:comment "Instances of :DeliveryParam are parameters for specifying detailed requirements within :DeliveryExpectation and reporting on these requirements within :DeliveryExpectationReport."@en ;
+.
+:Expectation
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :RequirementDefiner ;
+  rdfs:label "Expectation"@en ;
+  rdfs:comment "Within an :Intent, any number of detailed requirements and goals can be specified together with required constraints. Instances of the class :Expectation represent individual requirements."@en ;
+.
+:ExpectationParam
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :RequirementDefiner ;
+  rdfs:label "Expectation param"@en ;
+  rdfs:comment "Instances of :ExpectationParam are used as parameters of :Expectation and therefore define detailed requirements."@en ;
+.
+:ExpectationReport
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :RequirementReporter ;
+  rdfs:label "Expectation report"@en ;
+  rdfs:comment ":ExpectationReport and its subclasses are used within an :IntentReport to provide detailed reporting on requirements and goals set by an :Intent."@en ;
+.
+:ExpectationReportParam
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :RequirementReporter ;
+  rdfs:label "Expectation report param"@en ;
+  rdfs:comment "Instances of :ExpectationReportParam are used as parameters within expectation reports and therefore constitute a report on a detailed requirement defined by a corresdponding :ExpectationParam in the intent."@en ;
+.
+:ExpectationTarget
+  rdf:type rdfs:Class ;
+  rdfs:label "Expectation target"@en ;
+  rdfs:comment "Instances of :ExpectationTarget refer to an object that needs to meet the requiremetns specified in the expectation the :ExpectationTarget is assigned to. Any individual of class rdfs:Resource can be used as target."@en ;
+.
+:Information
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :InformationElement ;
+  rdfs:label "Information"@en ;
+  rdfs:comment "Within an intent, additional information can be specified next to requirements. Instances of :Information and its subclasses can be used to define the details. Information does not represent requirements to be fulfilled, but rather provide information that helps the intent handler to make optimized decisions from knowing more about the environment and motivation of the intent. Details of information and its specific vocabulary and semantics are defined by optional intent extension models."@en ;
+.
+:InformationElement
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :XXX ;
+  rdfs:label "Information element"@en ;
+  rdfs:comment "An instance of :InformationElement is involved in providing additional information that does not constitute an requirement."@en ;
+.
+:Intent
+  rdf:type rdfs:Class ;
+  rdf:type :RequirementDefiner﻿ ;
+  rdfs:label "Intent"@en ;
+  rdfs:comment "Every intent is an individual of class :Intent."@en ;
+.
+:IntentHandlingEvent
+  rdf:type rdfs:Class ;
+  rdfs:label "Intent handling event"@en ;
+  rdfs:comment "Individuals if of class :IntentHandingEvent specify an event that can occur in the generic process of intent handling. This usually leads to a state transition in an intent handling state machine."@en ;
+.
+:IntentManagementState
+  rdf:type rdfs:Class ;
+  rdfs:label "Intent management state"@en ;
+  rdfs:comment "Individuals of class :IntentManagementState define a state in a state machine for intent management."@en ;
+.
+:IntentManagementProcedure
+  rdf:type rdfs:Class ;
+  rdfs:label "Intent management procedure"@en ;
+  rdfs:comment "Defines which procedure in the intent life cycle management this intent or intent report is part of. Individuals of this class define the known procedures. The intent common model only defines the SET procedure as it is the only one mandatory. Further procedures can be defined with intent extension models."@en ;
+.
+:IntentHandlingState
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :IntentManagementState ;
+  rdfs:label "Intent handling state"@en ;
+  rdfs:comment "Individuals of class :IntentHandlingState define a state in the intent handling state machine."@en ;
+.
+:RejectionReason
+  rdf:type rdfs:Class ;
+  rdfs:label "Rejection reason"@en ;
+  rdfs:comment "Individuals of class :RejectionReason define why an intent was rejected."@en ;
+.
+:IntentReport
+  rdf:type rdfs:Class ;
+  rdf:type :RequirementReporter ;
+  rdfs:label "Intent report"@en ;
+  rdfs:comment "Individuals of class icm:IntentReport are the intent reports created for an intent and as part of the communication between intent management functions. In accordance with the icm:Intent class, also icm:IntentReport does not have subclasses for distinguishing different types of intent reports. The reasons and details of why a report was sent and for what purpose are modeled using properties."@en ;
+.
+:IntentUpdateState
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :IntentManagementState ;
+  rdfs:label "Intent update state"@en ;
+  rdfs:comment "Individuals of class :IntentUpdateState specify a state in the intent update state machine."@en ;
+.
+:ParamReason
+  rdf:type rdfs:Class ;
+  rdfs:label "Param reason"@en ;
+  rdfs:comment "Individuals of class :ParamReason specify a reason why there is an issue with an expectation param."@en ;
+.
+:PropertyExpectation
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :Expectation ;
+  rdfs:label "Property expectation"@en ;
+  rdfs:comment "An individual of class :PropertyExpectation is used to express a requirement based on a property of the expectation target. A typical example would be metrics or resource state based properties used to specify a goal by defining the values or value ranges to be reached."@en ;
+.
+:PropertyExpectationReport
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :ExpectationReport ;
+  rdfs:label "Property expectation report"@en ;
+  rdfs:comment "An individual of class :PropertyExpectationReport is used within an intent report to report the measured values or current state of properties used within a property expectation of an intent."@en ;
+.
+:PropertyParam
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf [
+                    rdf:type rdfs:Class ;
+                    owl:unionOf ( :ExpectationParam :ExpectationReportParam ) ;
+                  ] ;
+  rdfs:label "Property param"@en ;
+  rdfs:comment "Instances of class :PropertyParam are parameters for specifying detailed requirements within :PropertyExpectation and reporting on these requirements within :PropertyExpectationReport."@en ;
+.
+:ReferenceableNode
+  rdf:type rdfs:Class ;
+  rdfs:label "Referenceable node"@en ;
+  rdfs:comment "An instance of class :ReferenceableNode need to be addressable through IRI/URI. This means a blank node cannot be used to express an instance of this class. This is introduced ensure that nodes in intents, which are referenced from intent reports have a IRI/URI."@en ;
+.
+:ReportContext
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :RequirementReportExplainer ;
+  rdfs:label "Report context"@en ;
+  rdfs:comment "Instances of class :ReportContext define additional conditions and applicability ranges related to the requirements reported about."@en ;
+.
+:ReportingExpectation
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :Expectation ;
+  rdfs:label "Reporting expectation"@en ;
+  rdfs:comment "An individual of class :ReportingExpectation is used to express a requirement about when and under which conditions the intent handler needs to create and send an intent report."@en ;
+.
+:ReportingParam
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf [
+                    rdf:type rdfs:Class ;
+                    owl:unionOf ( :ExpectationParam :ExpectationReportParam ) ;
+                  ] ;
+  rdfs:label "Reporting param"@en ;
+  rdfs:comment "Instances of class :ReportingParam are parameters for specifying detailed requirements within reporting expectations and reporting on these requirements within reporting expectation reports."@en ;
+.
+:ReportingExpectationReport
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :ExpectationReport ;
+  rdfs:label "Reporting expectation report"@en ;
+  rdfs:comment "An individual of class :ReportingExpectationReport is used within an intent report to report the detailed state with respect to a reporting expectation. This typically includes reporting on the event that did lead to the creation of the intent report."@en ;
+.
+:RequirementDefiner
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :RequirementElement ;
+  rdfs:subClassOf :ReferenceableNode ;
+  rdfs:label "Requirement definer"@en ;
+  rdfs:comment "An individual of class :RequirementDefiner specifies requirements an intent handler and the system it mamages have to comply with. Every individual that shall be interpreted as a requirement to fulfill is a requirement definer."@en ;
+.
+:RequirementElement
+  rdf:type rdfs:Class ;
+  rdfs:label "Requirement element"@en ;
+  rdfs:comment "An individual of class :RequirementElement is involved in setting or reporting on requirements."@en ;
+.
+:RequirementExplainer
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :RequirementElement ;
+  rdfs:subClassOf :ReferenceableNode ;
+  rdfs:label "Requirement explainer"@en ;
+  rdfs:comment "An individual of class :RequirementExplainer specifies constraints and side-conditions for requirements."@en ;
+.
+:RequirementReporter
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :RequirementElement ;
+  rdfs:label "Requirement reporter"@en ;
+  rdfs:comment "An individual of class :RequirementReporter contains a report on requirements which were specified by requirement definer."@en ;
+.
+:RequirementReportExplainer
+  rdf:type rdfs:Class ;
+  rdfs:subClassOf :RequirementElement ;
+  rdfs:label "Requirement report explainer"@en ;
+  rdfs:comment "An instance of class :RequirementReportExplainer specifies constraints and side-conditions for requirements within their respective report."@en ;
+.
+# --- Individuals ----------
+
+# --- ... Individuals of class :IntentHandlingState ----------
+:StateIntentReceived
+  rdf:type :IntentHandlingState ;
+  rdfs:label "State intent received"@en ;
+  rdfs:comment "The intent has been received from the intent owner and acceptance is considered by the intent handler."@en ;
+.
+:StateCompliant
+  rdf:type :IntentHandlingState ;
+  rdfs:label "State compliant"@en ;
+  rdfs:comment "The system state indicates that the intent is fulfilled."@en ;
+.
+:StateDegraded
+  rdf:type :IntentHandlingState ;
+  rdfs:label "State degraded"@en ;
+  rdfs:comment "The system state indicates that the intent is not fulfilled."@en ;
+.
+:StateFinalizing
+  rdf:type :IntentHandlingState ;
+  rdfs:label "State finalizing"@en ;
+  rdfs:comment "The intent handler has stopped operating with the intent and it is doing final clean-up tasks. This typically happens after the intent owner has ordered a removal of the intent."@en ;
+.
+
+# --- ... Individuals of class :IntentUpdateState ----------
+:StateUpdateReceived
+  rdf:type :IntentUpdateState ;
+  rdfs:label "State update received"@en ;
+  rdfs:comment "The intent handler has received an updated new version of the intent and is evaluating it to decide if it accepts or rejects the update."@en ;
+.
+:StateNoUpdate
+  rdf:type :IntentUpdateState ;
+  rdfs:label "State no update"@en ;
+  rdfs:comment "No update process is currently ongoing for the intent."@en ;
+.
+:StateUpdating
+  rdf:type :IntentUpdateState ;
+  rdfs:label "State updating"@en ;
+  rdfs:comment "The update is accepted and in progress. This means that the intent content is currently being replaced with the received updates."@en ;
+.
+
+# --- ... Individuals of class :IntentHandlingEvent ----------
+:IntentReceived
+  rdf:type :IntentHandlingEvent ;
+  rdfs:label "Intent received"@en ;
+  rdfs:comment "A new intent was received from the intent owner. This is typically the first event generated for an intent and therefore marks the start of  intent handling. It also indicates that the state changes to :StateIntentReceived in the intent handling state machine."@en ;
+.
+:IntentRejected
+  rdf:type :IntentHandlingEvent ;
+  rdfs:label "Intent rejected"@en ;
+  rdfs:comment "The intent was rejected by the intent handler."@en ;
+.
+:IntentAccepted
+  rdf:type :IntentHandlingEvent ;
+  rdfs:label "Intent accepted"@en ;
+  rdfs:comment "The intent got accepted. This event has the following implications: The intent handler starts considering the intent in its operation. This means it will take action for trying to meet the requirements and goals set by the intent. The intent handling state machine enters the state :StateCompliant if the expectations within the intent are all fulfilled already. Otherwise, the state :StateDegraded is entered. The intent update state machine is initiated entering the waiting state :StateNoUpdate."@en ;
+.
+:StateComplies
+  rdf:type :IntentHandlingEvent ;
+  rdfs:label "State complies"@en ;
+  rdfs:comment "The intent handler state changes into the state :StateCompliant."@en ;
+.
+:StateDegrades
+  rdf:type :IntentHandlingEvent ;
+  rdfs:label "State complies"@en ;
+  rdfs:comment "The intent handler state changes into the state :StateDegraded."@en ;
+.
+:IntentRemoval
+  rdf:type :IntentHandlingEvent ;
+  rdfs:label "Intent removal"@en ;
+  rdfs:comment "The intent owner has ordered a removal of the intent. The intent handler immediately stops considering the intent and its expectations in operational decisions. However, the absence of these expectations might lead to actions adapting and optimizing the system according to the remaining intents. The intent handling state machine enters the state :StateFinalizing from whatever state it was in. The intent update state machine terminates and implicitly discards all ongoing update handling if needed."@en ;
+.
+:HandlingEnded
+  rdf:type :IntentHandlingEvent ;
+  rdfs:label "Handling ended"@en ;
+  rdfs:comment "The intent handler has finished all tasks associated with the removal of the intent. This is the last event generated for an intent."@en ;
+.
+:UpdateReceived
+  rdf:type :IntentHandlingEvent ;
+  rdfs:label "Update received"@en ;
+  rdfs:comment "An update for the intent was received. This event indicates that update handling is initiated and the update state machine enters the state :StateUpdateReceived."@en ;
+.
+:UpdateRejected
+  rdf:type :IntentHandlingEvent ;
+  rdfs:label "Update rejected"@en ;
+  rdfs:comment "The update was rejected and the intent handler continues with the previous version of the intent. The new version of the intent is discarded and the update state returns to :StateNoUpdate."@en ;
+.
+:UpdateAccepted
+  rdf:type :IntentHandlingEvent ;
+  rdfs:label "Update accepted"@en ;
+  rdfs:comment "The update was accepted and the intent handler proceeds replacing the intent content. The update state :StateUpdating is reached."@en ;
+.
+:UpdateFinished
+  rdf:type :IntentHandlingEvent ;
+  rdfs:label "Update finished"@en ;
+  rdfs:comment "The intent handler has finished executing a successful update. The update state machine returns to its waiting state :StateNoUpdate."@en ;
+.
+:ReportingIntervalExpired
+  rdf:type :IntentHandlingEvent ;
+  rdfs:label "Reporting interval expired"@en ;
+  rdfs:comment "The duration, which is set by the :reportingInterval property and describing the time until next report is due, has expired."@en ;
+.
+:ReportingDurationExpired
+  rdf:type :IntentHandlingEvent ;
+  rdfs:label "Reporting duration expired"@en ;
+  rdfs:comment "The duration, which is set by the :reportingDuration property and describing the time since last intent report and until next report is due, has expired."@en ;
+.
+
+# --- ... Individuals of class :RejectionReason ----------
+:IntentUnknownFormat
+  rdf:type :RejectionReason ;
+  rdfs:label "Intent unknown format"@en ;
+  rdfs:comment "The intent Handler does not understand the intent format. It is for example provided in a serialization format this intent handler does not support."@en ;
+.
+:OwnerNotAccepted
+  rdf:type :RejectionReason ;
+  rdfs:label "Owner not accepted"@en ;
+  rdfs:comment "The intent manager that has sent the update is not the original owner of the intent."@en ;
+.
+:IntentModelUnknown
+  rdf:type :RejectionReason ;
+  rdfs:label "Intent model unknown"@en ;
+  rdfs:comment "The intent is based on a model the intent handler does not support. This indicates a problem with the model federation used in the formulation of this intent."@en ;
+.
+:SuccessfulHandlingNotExpected
+  rdf:type :RejectionReason ;
+  rdfs:label "Successful handling not expected"@en ;
+  rdfs:comment "The intent handler does not expect that it can fulfil the intent."@en ;
+.
+:UnspecifiedRejection
+  rdf:type :RejectionReason ;
+  rdfs:label "Unspecified rejection"@en ;
+  rdfs:comment "If the intent handler needs to reject, but none of the pre-defined reasons applies it uses this reason."@en ;
+.
+
+# --- ... Individuals of class :ParamReason ----------
+:ParamReasonUnspecified
+  rdf:type :ParamReason ;
+  rdfs:label "Param Reason Unspecified"@en ;
+  rdfs:comment "No detailed reason."@en ;
+.
+:ValuePending
+  rdf:type :ParamReason ;
+  rdfs:label "Value pending"@en ;
+  rdfs:comment "Value was not yet received."@en ;
+.
+:TargetUnavailable
+  rdf:type :ParamReason ;
+  rdfs:label "Target unavailable"@en ;
+  rdfs:comment "There is no target instance yet for which a value could be obtained."@en ;
+.
+
+# --- ... Individuals of class :IntentManagementProcedure ----------
+:ProcedureSET
+  rdf:type :IntentManagementProcedure ;
+  rdfs:label "Procedure SET"@en ;
+  rdfs:comment "The set procedure means that the intent was communicated with the SET interface procedure. This means it is interpreted as operational requirement. This procedure is the default that is assumed if no procedure is defined."@en ;
+.
+
+# --- Properties ----------
+:atLeast
+  rdf:type rdf:Property ;
+  rdfs:label "at least"@en ;
+  rdfs:domain :ExpectationParam ;
+  rdfs:range :ExpectationParam ;
+  rdfs:comment "The :atLeast property is used as qualifier in the subject of :params definitions. It is used together with a numerical goal and requires that the measured value in the system state shall be equal or greater than the stated target value."@en ;
+.
+:atMost
+  rdf:type rdf:Property ;
+  rdfs:label "at most"@en ;
+  rdfs:domain :ExpectationParam ;
+  rdfs:range :ExpectationParam ;
+  rdfs:comment "The :atMost property is used as qualifier in the subject of icm:params definitions. It is used together with a numerical goal and requires that the measured value in the system state shall be equal or smaller than the stated target value."@en ;
+.
+:currentIntentHandlingState
+  rdf:type rdf:Property ;
+  rdfs:label "current intent handling state"@en ;
+  rdfs:domain :IntentReport ;
+  rdfs:range :IntentHandlingState ;
+  rdfs:comment "Assigns intent handling states to :IntentReport objects for reporting."@en ;
+.
+:currentIntentUpdateState
+  rdf:type rdf:Property ;
+  rdfs:label "current intent update state"@en ;
+  rdfs:domain :IntentReport ;
+  rdfs:range :IntentUpdateState ;
+  rdfs:comment "Assigns intent update states to :IntentReport objects for reporting."@en ;
+.
+:exactly
+  rdf:type rdf:Property ;
+  rdfs:label "exactly"@en ;
+  rdfs:domain :ExpectationParam ;
+  rdfs:range :ExpectationParam ;
+  rdfs:comment "The :exactly property is used as qualifier in the subject of icm:params definitions. It is used to indicate that the system state shall exactly match the stated value."@en ;
+.
+:greater
+  rdf:type rdf:Property ;
+  rdfs:label "greater"@en ;
+  rdfs:domain :ExpectationParam ;
+  rdfs:range :ExpectationParam ;
+  rdfs:comment "The :greater property is used as qualifier in the subject of :params definitions. It is used together with a numerical goal and requires that the measured value in the system state shall be greater than the stated target value."@en ;
+.
+:hasContext
+  rdf:type rdf:Property ;
+  rdfs:label "has context"@en ;
+  rdfs:domain :RequirementDefiner ;
+  rdfs:range :Context ;
+  rdfs:comment "Assigns context to subjects of class :RequirementDefiner such as intents, expectations and expectation params."@en ;
+.
+:hasExpectation
+  rdf:type rdf:Property ;
+  rdfs:label "has expectation"@en ;
+  rdfs:domain :Intent ;
+  rdfs:range :Expectation ;
+  rdfs:comment "Assigns expectations to intents."@en ;
+.
+:hasExpectationReport
+  rdf:type rdf:Property ;
+  rdfs:label "has expectation report"@en ;
+  rdfs:domain :IntentReport ;
+  rdfs:range :ExpectationReport ;
+  rdfs:comment "Assigns expectation reports to intent reports."@en ;
+.
+:hasInformation
+  rdf:type rdf:Property ;
+  rdfs:label "has information"@en ;
+  rdfs:domain :RequirementElement ;
+  rdfs:range :InformationElement ;
+  rdfs:comment "Assigns information to requirement elements such as intent, expectaion, expectation params,  expectation targets, intent reports, context, etc."@en ;
+.
+:hasReportContext
+  rdf:type rdf:Property ;
+  rdfs:label "has report context"@en ;
+  rdfs:domain :RequirementReporter ;
+  rdfs:range :ReportContext ;
+  rdfs:comment "Assigns a report context to subjects of class :RequirementDefiner. Report contexts provide the currently measured values for conditions expressed by context in intents."@en ;
+.
+:oneOf
+  rdf:type rdf:Property ;
+  rdfs:label "one of"@en ;
+  rdfs:domain :ExpectationParams ;
+  rdfs:range :ExpectationParams ;
+  rdfs:comment "The :oneOf property is used as qualifier in the subject of :params definitions. It is used to indicate that the system state shall exactly match the one of the stated values."@en ;
+.
+:params
+  rdf:type rdf:Property ;
+  rdfs:label "params"@en ;
+  rdfs:domain :Expectation ;
+  rdfs:range :ExpectationParam ;
+  rdfs:comment "Assigns params to expectations. Within an intent, params define the requirements that need to be fulfilled for considering the targeted resource or system to be complient to the intent."@en ;
+.
+:paramsCompliant
+  rdf:type rdf:Property ;
+  rdfs:label "params compliant"@en ;
+  rdfs:domain :ExpectationReport ;
+  rdfs:range :ExpectationReportParam ;
+  rdfs:comment "Assigns expectation report params to expectations reports. The expectation report params assigend with :paramsCompliant meet the requirements set by the respective expectaion params within the intent this report is reporting about."@en ;
+.
+:paramsDegraded
+  rdf:type rdf:Property ;
+  rdfs:label "params degraded"@en ;
+  rdfs:domain :ExpectationReport ;
+  rdfs:range :ExpectationReportParam ;
+  rdfs:comment "Assigns expectation report params to expectations reports. The expectation report params assigend with :paramsDegraded do not meet the requirements set by the respective expectaion params within the intent this report is reporting about. These params are the reason why the intent is considered degraded."@en ;
+.
+:paramsUnknown
+  rdf:type rdf:Property ;
+  rdfs:label "params unknown"@en ;
+  rdfs:domain :ExpectationReport ;
+  rdfs:range :ExpectationReportParam ;
+  rdfs:comment "Assigns expectation report params to expectations reports. The expectation report params assigend with :paramsUnknown could not be measured and their value is therefore unknown."@en ;
+.
+:partOfProcedure
+  rdf:type rdf:Property ;
+  rdfs:label "part of procedure"@en ;
+  rdfs:domain [
+                rdf:type rdfs:Class ;
+                owl:unionOf ( :Intent :IntentReport ) ;
+              ] ;
+  rdfs:range imo:IntentManagementProcedure ;
+  rdfs:comment "Specifies which intent managment procedure the intent or intent report is part of."@en ;
+.
+:reasonForParamDegraded
+  rdf:type rdf:Property ;
+  rdfs:label "reason for param degraded"@en ;
+  rdfs:domain :ExpectationReportParam ;
+  rdfs:range :ParamReason ;
+  rdfs:comment "Provides a reason why the system is degraded with respect to a param."@en ;
+.
+:reasonForParamUnknown
+  rdf:type rdf:Property ;
+  rdfs:label "reason for param unknown"@en ;
+  rdfs:domain :ExpectationReportParam ;
+  rdfs:range :ParamReason ;
+  rdfs:comment "Provides a reason why the system is reporting that a param is not known."@en ;
+.
+:rejectedBecause
+  rdf:type rdf:Property ;
+  rdfs:label "rejected because"@en ;
+  rdfs:domain :IntentReport ;
+  rdfs:range :RejectionReason ;
+  rdfs:comment "Assigns a rejection reason about intent or intent update rejection to an intent report."@en ;
+.
+:reportingDuration
+  rdf:type rdf:Property ;
+  rdfs:label "reporting duration"@en ;
+  rdfs:domain :ExpectationParam ;
+  rdfs:domain :ReportingParam ;
+  rdfs:range t:Duration ;
+  rdfs:comment "Specifies a time based condition for intent reporting within a :ReportingExpectation. After the specified duration has passed since the last intent report, a new intent report must be created. If a report is created before this duration has expired, the duration timer resets. This means :reportingDuration specifies the maximum allowed duration between intent reports."@en ;
+.
+:reportingDurationLeft
+  rdf:type rdf:Property ;
+  rdfs:label "reporting duration left"@en ;
+  rdfs:domain :ExpectationReportParam ;
+  rdfs:domain :ReportingParam ;
+  rdfs:range t:Duration ;
+  rdfs:comment "Reports the time left until an intent report is due, because of duration reporting. This duration counts from the last report that was sent."@en ;
+.
+:reportingEvent
+  rdf:type rdf:Property ;
+  rdfs:label "reporting event"@en ;
+  rdfs:domain :ExpectationParam ;
+  rdfs:domain :ReportingParam ;
+  rdfs:range :IntentHandlingEvent ;
+  rdfs:comment "Specifies the intent management events that shall trigger the generation of a new intent report."@en ;
+.
+:reportedEvent
+  rdf:type rdf:Property ;
+  rdfs:label "reported event"@en ;
+  rdfs:domain :ExpectationReportParam ;
+  rdfs:domain :ReportingParam ;
+  rdfs:range :IntentHandlingEvent  ;
+  rdfs:comment "Reports the intent management events that have triggered the generation of this intent report."@en ;
+.
+:reportingInterval
+  rdf:type rdf:Property ;
+  rdfs:label "reporting interval"@en ;
+  rdfs:domain :ExpectationParam ;
+  rdfs:domain :ReportingParam ;
+  rdfs:range t:Duration ;
+  rdfs:comment "Specifies a time based condition for intent reporting within a :ReportingExpectation. After the specified duration has passed since the last intent report, a new intent report must be created. If a report is created before this duration has expired, the duration timer does not resets. This means :reportingInterval specifies a fixed reporting time schedule irrespective of other reports that might be generated in-between."@en ;
+.
+:reportingIntervalLeft
+  rdf:type rdf:Property ;
+  rdfs:label "reporting interval left"@en ;
+  rdfs:domain :ExpectationReportParam ;
+  rdfs:domain :ReportingParam ;
+  rdfs:range t:Duration ;
+  rdfs:comment "Reports the time left until an intent report is due, because of duration reporting. This time counts from the last report that was sent due to interval reporting."@en ;
+.
+:reportsAbout
+  rdf:type rdf:Property ;
+  rdfs:label "reports about"@en ;
+  rdfs:domain :RequirementReporter ;
+  rdfs:range :RequirementDefiner ;
+  rdfs:comment "Refers to the requirement defining element within an intent this reported detail is reporting about."@en ;
+.
+:reportTimestamp
+  rdf:type rdf:Property ;
+  rdfs:label "report timestamp"@en ;
+  rdfs:domain :IntentReport ;
+  rdfs:range t:Instant ;
+  rdfs:comment "Specifies the timestamp of when this intent report was generated."@en ;
+.
+:reportNumber
+  rdf:type rdf:Property ;
+  rdfs:label "report number"@en ;
+  rdfs:domain :IntentReport ;
+  rdfs:range xsd:integer ;
+  rdfs:comment "States the sequence number of the intent report. It starts with 1 for the first intent report that was created for the intent and is incremented with every subsequent intent report."@en ;
+.
+:smaller
+  rdf:type rdf:Property ;
+  rdfs:label "smaller"@en ;
+  rdfs:domain :ExpectationParam ;
+  rdfs:range :ExpectationParam ;
+  rdfs:comment "The :smaller property is used as qualifier in the subject of :params definitions. It is used together with a numerical goal and requires that the measured value in the system state shall be smaller than the stated target value."@en ;
+.
+:target
+  rdf:type rdf:Property ;
+  rdfs:label "target"@en ;
+  rdfs:domain :Expectation ;
+  rdfs:range :ExpectationTarget ;
+  rdfs:comment "The :target property defines within an expectation, what object the expectation is targeted at. This means, which object the requirement specified by the expectation is meant for. The object of this property can be anything a requirement can sensibly be expressed for by the intent. It is often, for example, referring to resources or services using an IRI that points to that resource."@en ;
+.
+:targetDescription
+  rdf:type rdf:Property ;
+  rdfs:label "target description"@en ;
+  rdfs:domain :ExpectationParam ;
+  rdfs:domain :DeliveryParam ;
+  rdfs:range rdf:Resource ;
+  rdfs:comment "The :targetDescription property is used in the parameters of a delivery expectation. It defines what the target object is required to be. The object is an instance that holds a description of the target. A delivery expectation defines something that needs to be delivered and this usually implies a selection of an instance to be used for this purpose."@en ;
+.
+:targetReport
+  rdf:type rdf:Property ;
+  rdfs:label "target report"@en ;
+  rdfs:domain :ExpectationReport ;
+  rdfs:range rdf:Resource ;
+  rdfs:comment "The :targetReport property specifies which instance of something that is supposed to fulfil the intent requirements the expectation report is reporting about."@en ;
+.
+:targetType
+  rdf:type rdf:Property ;
+  rdfs:label "target type"@en ;
+  rdfs:domain :ExpectationParam ;
+  rdfs:range rdf:Class ;
+  rdfs:comment "The :targetType property is used in the parameters of a delivery expectation. It defines the class the target object is required to be an instance of."@en ;
+.
+
+
+
